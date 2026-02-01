@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Scrapper</title>
+    <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+  >
+</head>
+<body>
+    <main class="container">
+        <hgroup>
+            <h1>Search Results "{{keyword}}":</h1>
+            <a target = "_blank" href="/export?keyword={{keyword}}">Export to file</a>
+        </hgroup>
+        <figure>
+            <table role ="grid">
+                <thead>
+                    <tr>
+                        <th>Position</th>
+                        <th>Company</th>
+                        <th>Location</th>
+                        <th>Link</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for job in jobs %}
+                    <tr>
+                        <td>{{ job.title or job.position }}</td>
+                        <td>{{ job.company_name or job.company }}</td>
+                        {% if job.location or job.requirement %}
+                        <span>{{ job.location or job.requirement or "" }}</span>
+                        {% endif %}
+                        {% if job.reward %}<span>{{ job.reward or "" }}</span>{% endif %}   
+                        <td><a href="{{ job.link or job.job_url }}" target="_blank">Apply now &rarr;</a></td>
+                    </tr>
+                    {% endfor %}    
+            </table>
+        </figure>
+    </main>
+</body>
+</html>

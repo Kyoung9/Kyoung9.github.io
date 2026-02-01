@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Job Scraper</title>
+    <meta
+      name="description"
+      content="여러 채용 사이트를 키워드로 검색해 결과를 합치고 CSV로 내보내는 작은 Flask 앱."
+    >
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f5efe6;
+        --ink: #1d1b19;
+        --accent: #ce5a2b;
+        --muted: #6a5f55;
+        --card: #fff9f3;
+        --border: #ead9c8;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+        background: radial-gradient(circle at 10% 20%, #fff7ee 0%, #f5efe6 55%, #efe3d5 100%);
+        color: var(--ink);
+      }
+
+      .wrap {
+        min-height: 100vh;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        gap: 2.5rem;
+        padding: 3rem clamp(1.5rem, 4vw, 4rem);
+      }
+
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+      }
+
+      .logo {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
+
+      .logo span {
+        display: inline-grid;
+        place-items: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        background: var(--ink);
+        color: #fff;
+        font-weight: 600;
+      }
+
+      main {
+        display: grid;
+        gap: 2rem;
+        align-content: start;
+      }
+
+      .hero {
+        display: grid;
+        gap: 1.5rem;
+        max-width: 780px;
+      }
+
+      h1 {
+        font-size: clamp(2.2rem, 4vw, 3.5rem);
+        margin: 0;
+      }
+
+      p {
+        margin: 0;
+        line-height: 1.6;
+        color: var(--muted);
+      }
+
+      .cta {
+        display: inline-flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.25rem;
+        border-radius: 999px;
+        border: 1px solid var(--ink);
+        background: var(--ink);
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .button.secondary {
+        background: transparent;
+        color: var(--ink);
+      }
+
+      .grid {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 1.25rem;
+        padding: 1.25rem;
+        box-shadow: 0 15px 30px rgba(29, 27, 25, 0.08);
+      }
+
+      .card h3 {
+        margin: 0 0 0.5rem;
+        font-size: 1.05rem;
+      }
+
+      footer {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 600px) {
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div class="logo">
+          <span>JS</span>
+          Job Scraper
+        </div>
+        <div>
+          <a class="button secondary" href="https://github.com" rel="noopener noreferrer">
+            GitHub
+          </a>
+        </div>
+      </header>
+
+      <main>
+        <section class="hero">
+          <h1>키워드 하나로 여러 채용 보드에서 일자리 찾기</h1>
+          <p>
+            여러 소스의 채용 공고를 검색하고 결과를 합친 뒤 중복을 제거해 CSV로 내보내는
+            작은 Flask 앱입니다. GitHub Pages에서는 정적 소개 페이지만 제공됩니다.
+          </p>
+          <div class="cta">
+            <a class="button" href="./README.md">README 보기</a>
+            <a class="button secondary" href="./exports/">exports 폴더</a>
+          </div>
+        </section>
+
+        <section class="grid">
+          <article class="card">
+            <h3>통합 검색</h3>
+            <p>Berlin Startup Jobs, We Work Remotely, Web3.career를 한 번에 검색합니다.</p>
+          </article>
+          <article class="card">
+            <h3>중복 제거</h3>
+            <p>링크 기준으로 중복을 제거하고, 링크가 없을 때는 회사/직무 기준으로 정리합니다.</p>
+          </article>
+          <article class="card">
+            <h3>CSV 내보내기</h3>
+            <p>검색 결과를 CSV로 저장해 바로 공유하거나 분석할 수 있습니다.</p>
+          </article>
+        </section>
+      </main>
+
+      <footer>
+        정적 페이지는 GitHub Pages용이며, 앱 실행은 Python 환경에서 진행합니다.
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,4 +1,4 @@
-# Job Scraper (jobscraper.github.io)
+# Job Scraper (Kyoung9.github.io)
 
 ## English
 ### Overview

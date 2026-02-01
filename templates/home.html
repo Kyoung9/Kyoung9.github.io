@@ -1,23 +1,229 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Job Scrapper</title>
+    <title>Job Scraper</title>
+    <meta
+      name="description"
+      content="A Flask-based Job Scraper that aggregates roles from multiple job boards in one search."
+    >
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
->
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    >
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f5efe6;
+        --ink: #1d1b19;
+        --accent: #ce5a2b;
+        --muted: #6a5f55;
+        --card: #fff9f3;
+        --border: #ead9c8;
+      }
 
-</head>
-<body>
-    <main class="container">        
-        <h1>Job Scrapper</h1>
-        <h4>What job do you want?</h4>
-        <form action="/search">
-            <input type="text" name = "keyword" placeholder = "Write one keyword pleas"/>
-            <button>Search</button>
-        </form> 
-    </main>
-</body>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+        background: radial-gradient(circle at 10% 20%, #fff7ee 0%, #f5efe6 55%, #efe3d5 100%);
+        color: var(--ink);
+      }
+
+      .wrap {
+        min-height: 100vh;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        gap: 2.5rem;
+        padding: 3rem clamp(1.5rem, 4vw, 4rem);
+      }
+
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+      }
+
+      .logo {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
+
+      .logo span {
+        display: inline-grid;
+        place-items: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        background: var(--ink);
+        color: #fff;
+        font-weight: 600;
+      }
+
+      main {
+        display: grid;
+        gap: 2rem;
+        align-content: start;
+      }
+
+      .hero {
+        display: grid;
+        gap: 1.25rem;
+        max-width: 760px;
+      }
+
+      h1 {
+        font-size: clamp(2.2rem, 4vw, 3.5rem);
+        margin: 0;
+      }
+
+      p {
+        margin: 0;
+        line-height: 1.6;
+        color: var(--muted);
+      }
+
+      .search-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 1.5rem;
+        padding: 1.75rem;
+        display: grid;
+        gap: 1rem;
+        box-shadow: 0 20px 40px rgba(29, 27, 25, 0.1);
+      }
+
+      .form-row {
+        display: grid;
+        gap: 0.75rem;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+      }
+
+      input[type="text"] {
+        padding: 0.85rem 1rem;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: #fff;
+        font-size: 1rem;
+        color: var(--ink);
+      }
+
+      input[type="text"]:focus {
+        outline: 2px solid rgba(206, 90, 43, 0.35);
+        border-color: var(--accent);
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        border-radius: 999px;
+        border: 1px solid var(--ink);
+        background: var(--ink);
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .button.secondary {
+        background: transparent;
+        color: var(--ink);
+      }
+
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .chip {
+        padding: 0.35rem 0.75rem;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: #fff;
+        font-size: 0.9rem;
+        color: var(--muted);
+      }
+
+      footer {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 700px) {
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+
+        .button {
+          justify-content: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div class="logo">
+          <span>JS</span>
+          Job Scraper
+        </div>
+        <div>
+          <a class="button secondary" href="https://github.com" rel="noopener noreferrer">
+            GitHub
+          </a>
+        </div>
+      </header>
+
+      <main>
+        <section class="hero">
+          <h1>Search multiple job boards with a single keyword</h1>
+          <p>
+            This Flask-based Job Scraper collects roles from Berlin Startup Jobs, We Work Remotely,
+            and Web3.career. Enter a keyword to see consolidated results and export them to CSV.
+          </p>
+        </section>
+
+        <section class="search-card">
+          <div>
+            <strong>What role are you looking for?</strong>
+            <p>Examples: frontend, data analyst, product designer</p>
+          </div>
+          <form class="form-row" action="/search" method="get">
+            <input
+              type="text"
+              name="keyword"
+              placeholder="Type a keyword to search"
+              required
+              autocomplete="off"
+            >
+            <button class="button" type="submit">Search</button>
+          </form>
+          <div class="chips">
+            <span class="chip">Remote</span>
+            <span class="chip">Berlin</span>
+            <span class="chip">Web3</span>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        Results are aggregated from multiple sources and deduplicated by link.
+      </footer>
+    </div>
+  </body>
 </html>

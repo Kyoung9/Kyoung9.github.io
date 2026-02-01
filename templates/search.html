@@ -1,49 +1,259 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Job Scrapper</title>
+    <title>Job Scraper - {{ keyword }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
-  >
-</head>
-<body>
-    <main class="container">
-        <hgroup>
-            <h1>Search Results "{{keyword}}":</h1>
-            <a target = "_blank" href="/export?keyword={{keyword}}">Export to file</a>
-        </hgroup>
-        <figure>
-            <table role ="grid">
-                <thead>
-                    <tr>
-                      <th>Position</th>
-                      <th>Company</th>
-                      <th>Location</th>
-                      <th>Salary</th>
-                      <th>Source</th>
-                      <th>Tags</th>
-                      <th>Link</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for job in jobs %}
-                    <tr>
-                      <td>{{ job.title }}</td>
-                      <td>{{ job.company }}</td>
-                      <td>{{ job.location or "" }}</td>
-                      <td>{{ job.salary or "" }}</td>
-                      <td>{{ job.source }}</td>
-                      <td>{{ (job.extra.tags if job.extra else "") }}</td>
-                      <td><a href="{{ job.link }}" target="_blank">Apply →</a></td>
-                    </tr>
-                    {% endfor %}
-                  </tbody>
-                                   
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    >
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f5efe6;
+        --ink: #1d1b19;
+        --accent: #ce5a2b;
+        --muted: #6a5f55;
+        --card: #fff9f3;
+        --border: #ead9c8;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+        background: radial-gradient(circle at 10% 20%, #fff7ee 0%, #f5efe6 55%, #efe3d5 100%);
+        color: var(--ink);
+      }
+
+      .wrap {
+        min-height: 100vh;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        gap: 2.5rem;
+        padding: 3rem clamp(1.5rem, 4vw, 4rem);
+      }
+
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+      }
+
+      .logo {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
+
+      .logo span {
+        display: inline-grid;
+        place-items: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        background: var(--ink);
+        color: #fff;
+        font-weight: 600;
+      }
+
+      main {
+        display: grid;
+        gap: 1.5rem;
+        align-content: start;
+      }
+
+      h1 {
+        font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+        margin: 0;
+      }
+
+      p {
+        margin: 0;
+        line-height: 1.6;
+        color: var(--muted);
+      }
+
+      .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .actions {
+        display: inline-flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.7rem 1.3rem;
+        border-radius: 999px;
+        border: 1px solid var(--ink);
+        background: var(--ink);
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .button.secondary {
+        background: transparent;
+        color: var(--ink);
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 1.5rem;
+        padding: 1.25rem;
+        box-shadow: 0 20px 40px rgba(29, 27, 25, 0.1);
+      }
+
+      .table-wrap {
+        overflow-x: auto;
+        border-radius: 1rem;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 820px;
+      }
+
+      thead th {
+        text-align: left;
+        font-weight: 600;
+        padding: 0.75rem 0.9rem;
+        border-bottom: 1px solid var(--border);
+        color: var(--muted);
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      tbody td {
+        padding: 0.9rem;
+        border-bottom: 1px solid rgba(234, 217, 200, 0.6);
+        vertical-align: top;
+      }
+
+      tbody tr:hover {
+        background: rgba(255, 255, 255, 0.6);
+      }
+
+      .tag {
+        display: inline-block;
+        padding: 0.2rem 0.6rem;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: #fff;
+        font-size: 0.8rem;
+        color: var(--muted);
+        margin-right: 0.35rem;
+        margin-bottom: 0.35rem;
+      }
+
+      .apply-link {
+        color: var(--accent);
+        font-weight: 600;
+        text-decoration: none;
+      }
+
+      .apply-link:hover {
+        text-decoration: underline;
+      }
+
+      footer {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div class="logo">
+          <span>JS</span>
+          Job Scraper
+        </div>
+        <div class="actions">
+          <a class="button secondary" href="{{ url_for('home') }}">Home</a>
+          <a class="button" target="_blank" href="/export?keyword={{ keyword }}">Export CSV</a>
+        </div>
+      </header>
+
+      <main>
+        <section class="toolbar">
+          <div>
+            <h1>Results for “{{ keyword }}”</h1>
+            <p>Collected {{ jobs | length }} postings.</p>
+          </div>
+          <div class="actions">
+            <a class="button secondary" href="{{ url_for('home') }}">Search another keyword</a>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="table-wrap">
+            <table role="grid">
+              <thead>
+                <tr>
+                  <th>Position</th>
+                  <th>Company</th>
+                  <th>Location</th>
+                  <th>Salary</th>
+                  <th>Source</th>
+                  <th>Tags</th>
+                  <th>Link</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for job in jobs %}
+                {% set tags = job.extra.tags if job.extra else None %}
+                <tr>
+                  <td>{{ job.title }}</td>
+                  <td>{{ job.company }}</td>
+                  <td>{{ job.location or "" }}</td>
+                  <td>{{ job.salary or "" }}</td>
+                  <td>{{ job.source }}</td>
+                  <td>
+                    {% if tags %}
+                      {% if tags is string %}
+                        <span class="tag">{{ tags }}</span>
+                      {% else %}
+                        {% for tag in tags %}
+                          <span class="tag">{{ tag }}</span>
+                        {% endfor %}
+                      {% endif %}
+                    {% endif %}
+                  </td>
+                  <td><a class="apply-link" href="{{ job.link }}" target="_blank">Apply →</a></td>
+                </tr>
+                {% endfor %}
+              </tbody>
             </table>
-        </figure>
-    </main>
-</body>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        Use Export CSV to save the current results.
+      </footer>
+    </div>
+  </body>
 </html>

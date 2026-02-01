@@ -4,6 +4,9 @@
 ### Overview
 A small Flask app that searches multiple job boards by keyword, merges results, removes duplicates, and lets you export the results to a CSV file.
 
+### Demo
+https://kyoung9-github-io-211i.vercel.app
+
 ### Features
 - Keyword search across multiple sources
 - Dedupe by link (or by source/company/title when link is missing)
@@ -70,6 +73,9 @@ tests/
 ## 한국어
 ### 개요
 키워드로 여러 채용 사이트를 검색하고 결과를 합친 뒤 중복을 제거하여 CSV로 내보낼 수 있는 간단한 Flask 앱입니다.
+
+### 데모
+https://kyoung9-github-io-211i.vercel.app
 
 ### 주요 기능
 - 여러 소스에서 키워드 검색

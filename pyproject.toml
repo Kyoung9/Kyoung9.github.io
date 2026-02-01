@@ -1,0 +1,22 @@
+[project]
+name = "jobscraper-github-io"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "kyoung9",email = "gwakkyoungpin@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "flask (>=3.1.2,<4.0.0)",
+    "requests (>=2.32.5,<3.0.0)",
+    "beautifulsoup4 (>=4.14.3,<5.0.0)"
+]
+
+[tool.poetry]
+packages = [{include = "jobscraper"}]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

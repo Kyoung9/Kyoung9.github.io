@@ -19,24 +19,29 @@
             <table role ="grid">
                 <thead>
                     <tr>
-                        <th>Position</th>
-                        <th>Company</th>
-                        <th>Location</th>
-                        <th>Link</th>
+                      <th>Position</th>
+                      <th>Company</th>
+                      <th>Location</th>
+                      <th>Salary</th>
+                      <th>Source</th>
+                      <th>Tags</th>
+                      <th>Link</th>
                     </tr>
-                </thead>
-                <tbody>
+                  </thead>
+                  <tbody>
                     {% for job in jobs %}
                     <tr>
-                        <td>{{ job.title or job.position }}</td>
-                        <td>{{ job.company_name or job.company }}</td>
-                        {% if job.location or job.requirement %}
-                        <span>{{ job.location or job.requirement or "" }}</span>
-                        {% endif %}
-                        {% if job.reward %}<span>{{ job.reward or "" }}</span>{% endif %}   
-                        <td><a href="{{ job.link or job.job_url }}" target="_blank">Apply now &rarr;</a></td>
+                      <td>{{ job.title }}</td>
+                      <td>{{ job.company }}</td>
+                      <td>{{ job.location or "" }}</td>
+                      <td>{{ job.salary or "" }}</td>
+                      <td>{{ job.source }}</td>
+                      <td>{{ (job.extra.tags if job.extra else "") }}</td>
+                      <td><a href="{{ job.link }}" target="_blank">Apply →</a></td>
                     </tr>
-                    {% endfor %}    
+                    {% endfor %}
+                  </tbody>
+                                   
             </table>
         </figure>
     </main>
